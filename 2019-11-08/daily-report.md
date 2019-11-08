@@ -64,4 +64,20 @@
 - タブ補間
 - 矢印キーによるコマンドヒストリー
 
+## PlantUML 環境構築
+http://plantuml.com/ja/starting
+
+### Java導入(WSL環境Ubuntuの場合)
+```
+$ sudo apt-get update
+$ sudo apt install openjdk-11-jdk
+```
+
+### PlantUML install(jarファイル配置)
+```
+$ UML=http://sourceforge.net/projects/plantuml/files/plantuml.jar/download
+$ sudo curl -JLO ${UML}
+```
+サンプルも動かすことができたが、作成された画像をいちいちWSL外にもっていかないといけないということにここで気づいた。  
+VSCodeの「Remote-WSL」＋「PlantUML」を使ってやる。
 
