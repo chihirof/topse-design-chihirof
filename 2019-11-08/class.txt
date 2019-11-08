@@ -25,6 +25,7 @@ class History {
     List<String> params
     exec()
 }
+note bottom: そのほかのコマンドについても同じようにクラスができる
 
 Command <|-- Echo
 Command <|-- History
@@ -72,6 +73,7 @@ enum PathSymbol{
 class InputTransfer {
 
 }
+note bottom: 画面からの入力値を検査、変換する
 
 Directory -[hidden]- PathTransfer
 File -[hidden]- PathSymbol
