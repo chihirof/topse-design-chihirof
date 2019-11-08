@@ -1,0 +1,82 @@
+@startuml
+
+class Process {
+    Directory pwd
+    Directory prepwd
+    List<Command> history
+    init()
+}
+note bottom: init()->rootを作成し、pwdへrootをセットする
+
+interface Command {
+    String name
+    List<String> params
+    exec()
+}
+
+class Echo {
+    String name
+    List<String> params
+    exec()
+}
+
+class History {
+    String name
+    List<String> params
+    exec()
+}
+
+Command <|-- Echo
+Command <|-- History
+
+
+interface DirectoryEntry {
+    String name
+    DirectoryEntry parent
+    Date createAt
+}
+
+class Directory {
+    String name
+    DirectoryEntry parent
+    Date createAt
+    List<DirectoryEntry> childList
+    add(DirectoryEntry)
+}
+
+class File {
+    String name
+    DirectoryEntry parent
+    Date createAt
+}
+
+DirectoryEntry <|-- Directory
+DirectoryEntry <|-- File
+DirectoryEntry --o Directory
+
+class PathTransfer {
+    relativeToAbsolute()
+}
+
+class Main{
+    main()
+}
+
+enum PathSymbol{
+    current
+    parent
+    slash
+    hyphen
+}
+
+class InputTransfer {
+
+}
+
+Directory -[hidden]- PathTransfer
+File -[hidden]- PathSymbol
+Echo -[hidden]- DirectoryEntry
+Main -[hidden]ri- PathTransfer
+PathSymbol -[hidden]ri- InputTransfer
+
+@enduml

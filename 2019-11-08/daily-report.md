@@ -73,6 +73,11 @@ $ sudo apt-get update
 $ sudo apt install openjdk-11-jdk
 ```
 
+### graphviz install
+```
+$ sudo apt-get install graphviz
+```
+
 ### PlantUML install(jarファイル配置)
 ```
 $ UML=http://sourceforge.net/projects/plantuml/files/plantuml.jar/download
