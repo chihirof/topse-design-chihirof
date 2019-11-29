@@ -1,0 +1,47 @@
+@startuml
+actor User
+activate Main
+activate Process
+
+ref over User, Main : start app
+
+User -> Main: input "mkdir test"
+Main -> Process: searchCommand("mkdir test")
+activate Process
+
+Process -> Process: history.add("mkdir test")
+Process -> Process: verify input
+Process -> Process: search command\nfrom command list
+Process -> Mkdir: create
+activate Mkdir
+Process -> Mkdir: params = "test"
+Process <-- Mkdir: Mkdir
+Main <-- Process: Mkdir
+deactivate Process
+
+Main -> Mkdir: exec()
+Mkdir -> Path: getSrcDirectory("test")
+Mkdir <-- Path: /(Directory)
+
+Mkdir -> Directory: create
+activate Directory
+Directory -> Directory: name = test
+Directory -> Directory: createAt = date
+Directory -> Directory: parent = /
+Mkdir <-- Directory
+
+Mkdir -> Mkdir: /.childList.add(this)
+
+Main <-- Mkdir
+User <-- Main
+
+
+participant User order 10
+participant Main order 20
+participant Process order 30
+participant Mkdir order 40
+participant Directory order 50
+participant Path order 60
+
+
+@enduml

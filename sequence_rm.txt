@@ -1,0 +1,39 @@
+@startuml
+actor User
+activate Main
+activate Process
+
+ref over User, Main : start app
+
+User -> Main: input "rm ./test/js/test.js"
+Main -> Process: searchCommand("rm ./test/js/test.js")
+activate Process
+
+Process -> Process: history.add("rm ./test/js/test.js")
+Process -> Process: verify input
+Process -> Process: search command\nfrom command list
+Process -> Rm: create
+activate Rm
+Process -> Rm: params = "./test/js/test.js"
+Process <-- Rm: Rm
+Main <-- Process: Rm
+deactivate Process
+
+Main -> Rm: exec()
+Rm -> Path: getSrcDirectory("./test/js/test.js")
+Rm <-- Path: js(Directory)
+
+Rm -> Rm: js.childList.remove(this)
+
+Main <-- Rm
+User <-- Main
+
+
+participant User order 10
+participant Main order 20
+participant Process order 30
+participant Rm order 40
+participant Path order 50
+
+
+@enduml

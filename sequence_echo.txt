@@ -1,0 +1,34 @@
+@startuml
+actor User
+activate Main
+activate Process
+
+ref over User, Main : start app
+
+User -> Main: input "echo test"
+Main -> Process: searchCommand("echo test")
+activate Process
+
+Process -> Process: history.add("echo test")
+Process -> Process: verify input
+Process -> Process: search command\nfrom command list
+Process -> Echo: create
+activate Echo
+Process -> Echo: params = "test"
+Process <-- Echo: Echo
+Main <-- Process: Echo
+deactivate Process
+
+Main -> Echo: exec()
+Echo -> Echo: print "test"
+Main <-- Echo
+User <-- Main: "test"
+
+
+participant User order 10
+participant Main order 20
+participant Process order 30
+participant Echo order 40
+
+
+@enduml

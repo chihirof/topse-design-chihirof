@@ -1,0 +1,29 @@
+@startuml
+actor User
+
+User -> Main: start app
+activate Main
+Main -> Process: create
+activate Process
+Main -> Process: init()
+
+Process -> Directory: create root Directory
+activate Directory
+Process <-- Directory: created root Directory
+Process -> Process: pwd = root
+Process -> Process: prepwd = null
+Process -> Process: init history list
+
+Process -> Process: initCommandList()
+activate Process
+Process -> Process: commandList.add("echo")
+Process -> Process: commandList.add("cd")
+Process -> Process: commandList.add("ls")
+
+ref over Process : add all command name
+
+Main <-- Process: created Process
+deactivate Process
+Main -> Main: set process
+
+@enduml

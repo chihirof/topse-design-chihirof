@@ -1,0 +1,47 @@
+@startuml
+actor User
+activate Main
+activate Process
+
+ref over User, Main : start app
+
+User -> Main: input "touch test.js"
+Main -> Process: searchCommand("touch ./js/test.js")
+activate Process
+
+Process -> Process: history.add("touch ./js/test.js")
+Process -> Process: verify input
+Process -> Process: search command\nfrom command list
+Process -> Touch: create
+activate Touch
+Process -> Touch: params = "./js/test.js"
+Process <-- Touch: Touch
+Main <-- Process: Touch
+deactivate Process
+
+Main -> Touch: exec()
+Touch -> Path: getSrcDirectory("./js/test.js")
+Touch <-- Path: js(Directory)
+
+Touch -> File: create
+activate File
+File -> File: name = test.js
+File -> File: createAt = date
+File -> File: data = null
+File -> File: parent = js
+Touch <-- File
+
+Touch -> Touch: js.childList.add(this)
+
+Main <-- Touch
+User <-- Main
+
+participant User order 10
+participant Main order 20
+participant Process order 30
+participant Touch order 40
+participant File order 50
+participant Path order 60
+
+
+@enduml

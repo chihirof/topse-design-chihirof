@@ -1,0 +1,38 @@
+@startuml
+actor User
+activate Main
+activate Process
+
+ref over User, Main : start app
+
+User -> Main: input "cd -"
+Main -> Process: searchCommand("cd -")
+activate Process
+
+Process -> Process: history.add("cd -")
+Process -> Process: verify input
+Process -> Process: search command\nfrom command list
+Process -> Cd: create
+activate Cd
+Process -> Cd: params = "-"
+Process <-- Cd: Cd
+Main <-- Process: Cd
+deactivate Process
+
+Main -> Cd: exec()
+
+Cd -> Cd: tmp = process.pwd
+Cd -> Cd: process.pwd = process.prepwd
+Cd -> Cd: process.prepwd = tmp
+
+Main <-- Cd
+User <-- Main
+
+
+participant User order 10
+participant Main order 20
+participant Process order 30
+participant Cd order 40
+
+
+@enduml

@@ -3,10 +3,14 @@
 class Process {
     Directory pwd
     Directory prepwd
-    List<Command> history
+    List<String> history
+    List<String> commandList
     init()
+    initCommandList()
+    searchCommand()
 }
-note bottom: init()->rootを作成し、pwdへrootをセットする
+note bottom: init()->rootを作成し、pwdへrootをセットする\n initCommandList()->アプリ内で使うコマンドのリスト\n history-> コマンド履歴
+
 
 interface Command {
     String name
@@ -49,19 +53,25 @@ class File {
     String name
     DirectoryEntry parent
     Date createAt
+    String data
 }
 
 DirectoryEntry <|-- Directory
 DirectoryEntry <|-- File
 DirectoryEntry --o Directory
 
-class PathTransfer {
-    relativeToAbsolute()
+class Path {
+    absoluteToRelative()
+    updatePath()
+    getSrcDirectory()
+    
 }
 
 class Main{
+    Process process
     main()
 }
+note bottom: process->アプリ内で一つだけ
 
 enum PathSymbol{
     current
@@ -70,15 +80,8 @@ enum PathSymbol{
     hyphen
 }
 
-class InputTransfer {
-
-}
 note bottom: 画面からの入力値を検査、変換する
 
-Directory -[hidden]- PathTransfer
-File -[hidden]- PathSymbol
 Echo -[hidden]- DirectoryEntry
-Main -[hidden]ri- PathTransfer
-PathSymbol -[hidden]ri- InputTransfer
 
 @enduml

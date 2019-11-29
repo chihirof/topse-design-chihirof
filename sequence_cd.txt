@@ -1,0 +1,40 @@
+@startuml
+actor User
+activate Main
+activate Process
+
+ref over User, Main : start app
+
+User -> Main: input "cd ./js/test"
+Main -> Process: searchCommand("cd ./js/test")
+activate Process
+
+Process -> Process: history.add("cd ./js/test")
+Process -> Process: verify input
+Process -> Process: search command\nfrom command list
+Process -> Cd: create
+activate Cd
+Process -> Cd: params = "./js/test"
+Process <-- Cd: Cd
+Main <-- Process: Cd
+deactivate Process
+
+Main -> Cd: exec()
+Cd -> Path: getSrcDirectory("./js/test")
+Cd <-- Path: test(Directory)
+
+Cd -> Cd: process.prepwd = process.pwd
+Cd -> Cd: process.pwd = test
+
+Main <-- Cd
+User <-- Main
+
+
+participant User order 10
+participant Main order 20
+participant Process order 30
+participant Cd order 40
+participant Path order 50
+
+
+@enduml

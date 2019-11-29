@@ -1,0 +1,35 @@
+@startuml
+actor User
+activate Main
+activate Process
+
+ref over User, Main : start app
+
+User -> Main: input "ls"
+Main -> Process: searchCommand("ls")
+activate Process
+
+Process -> Process: history.add("ls")
+Process -> Process: verify input
+Process -> Process: search command\nfrom command list
+Process -> Ls: create
+activate Ls
+Process <-- Ls: Ls
+Main <-- Process: Ls
+deactivate Process
+
+Main -> Ls: exec()
+Ls -> Ls: print process.pwd.childList
+note right: name を表示
+
+Main <-- Ls
+User <-- Main
+
+
+participant User order 10
+participant Main order 20
+participant Process order 30
+participant Ls order 40
+
+
+@enduml
